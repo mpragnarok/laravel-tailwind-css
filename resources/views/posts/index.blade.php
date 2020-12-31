@@ -26,17 +26,15 @@
                             <span class="text-gray-600 text-sm">{{$post->created_at->diffForHumans()}}</span>
                         </a>
                         <p class="mb-2">{{$post->body}}</p>
-
-                        @if ($post->ownedBy(auth()->user()))
-                        <div>
+                        {{--use @can to get authorization of delete--}}
+                        @can('delete',$post)
                             <form action="{{route('posts.destroy',$post)}}" method="post">
                                 @csrf
                                 @method('DELETE')
                                 <button type="submit" class="text-blue-500">Delete</button>
 
                             </form>
-                        </div>
-                        @endif
+                        @endcan
                         <div class="flex item-center">
                             @auth
                                 @if(!$post->likedBy(auth()->user()))
@@ -46,7 +44,7 @@
                                     </form>
                                 @else
                                     <form action="{{route('posts.likes',$post)}}" method="post" class="mr-1">
-                                     @csrf
+                                        @csrf
                                         @method('DELETE')
                                         <button type="submit" class="text-blue-500">Unlike</button>
                                     </form>
