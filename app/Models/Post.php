@@ -13,9 +13,20 @@ class Post extends Model
         'body'
     ];
 
+    public function likedBy(User $user)
+    {
+        // look into laravel collection and check the user id is with in the like model
+        return $this->likes->contains('user_id', $user->id);
+    }
+
     public function user()
     {
         // define the relationship
         return $this->belongsTo(User::class);
+    }
+
+    public function likes()
+    {
+        return $this->hasMany(Like::class);
     }
 }
