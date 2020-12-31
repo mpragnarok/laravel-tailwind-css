@@ -17,6 +17,13 @@ class PostController extends Controller
         ]);
     }
 
+    public function show(Post $post)
+    {
+        return view('posts.show', [
+            'post' => $post
+        ]);
+    }
+
     public function store(Request $request)
     {
         $this->validate($request, ['body' => 'required']);
@@ -33,7 +40,7 @@ class PostController extends Controller
     public function destroy(Post $post)
     {
         // with PostPolicy, we can authorize user action
-        $this->authorize('delete',$post); // will throw out 403 forbidden
+        $this->authorize('delete', $post); // will throw out 403 forbidden
         $post->delete();
         return back();
     }
