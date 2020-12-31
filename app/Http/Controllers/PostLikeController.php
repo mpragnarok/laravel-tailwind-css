@@ -24,13 +24,16 @@ class PostLikeController extends Controller
             'user_id' => $request->user()->id,
         ]);
 
-        Mail::to($post->user)->send(new PostLiked(auth()->user(), $post));
+        // only send the email when it has no previously liked
+        if (!$post->likes()->onlyTrashed()->where('user_id', $request->user()->id)->count()) {
+            Mail::to($post->user)->send(new PostLiked(auth()->user(), $post));
+        }
         return back();
     }
 
     public function destroy(Post $post, Request $request)
     {
-        $request->user()->likes()->where('post_id',$post->id)->delete();
+        $request->user()->likes()->where('post_id', $post->id)->delete();
         return back();
     }
 }
