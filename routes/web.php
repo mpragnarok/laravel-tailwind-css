@@ -6,6 +6,7 @@ use App\Http\Controllers\Auth\RegisterController;
 use App\Http\Controllers\DashboardController;
 use App\Http\Controllers\PostController;
 use App\Http\Controllers\PostLikeController;
+use App\Http\Controllers\UserPostController;
 use Illuminate\Support\Facades\Route;
 
 Route::get('/', function () {
@@ -16,6 +17,9 @@ Route::get('/dashboard', [DashboardController::class, 'index'])
     ->name('dashboard');
 // add middleware here or in the controller
 //    ->middleware('auth');
+
+//model binding {user}
+Route::get('/users/{user:username}/posts', [UserPostController::class, 'index'])->name('users.posts');
 
 
 Route::get('/register', [RegisterController::class, 'index'])->name('register');

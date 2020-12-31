@@ -42,11 +42,20 @@ class User extends Authenticatable
         'email_verified_at' => 'datetime',
     ];
 
-    public function posts(){
+    public function posts()
+    {
         // define relationship
-        return $this->hasMany(Post::class );
+        return $this->hasMany(Post::class);
     }
-    public function likes(){
+
+    public function likes()
+    {
         return $this->hasMany(Like::class);
     }
+    // The "has-many-through" relationship provides a convenient way to access distant relations via an intermediate relation.
+    public function receivedLikes()
+    {
+        return $this->hasManyThrough(Like::class, Post::class);
+    }
+
 }
