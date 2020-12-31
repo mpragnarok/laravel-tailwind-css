@@ -7,6 +7,12 @@ use Illuminate\Http\Request;
 
 class PostController extends Controller
 {
+    public function __construct()
+    {
+//        store and destroy post will need to be signed in
+        $this->middleware(['auth'])->only(['store', 'destroy']);
+    }
+
     public function index()
     {
         // eager loading to save query
